@@ -1,7 +1,9 @@
 package com.careerdeves.weatherapi.controllers;
 
 
-import com.careerdeves.weatherapi.models.CurrentWaether;
+import com.careerdeves.weatherapi.models.CurrentWeather;
+import com.careerdeves.weatherapi.models.CurrentWeather;
+import com.careerdeves.weatherapi.models.CurrentWeatherReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +23,39 @@ public class CurrentWeatherController {
     private final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 
 
-
-
     @GetMapping("/city/{cityName}")
     public ResponseEntity<?> getCurrentWeatherByCity (RestTemplate restTemplate, @PathVariable String cityName) {
         try {
             String apiKey = environment.getProperty("OW_API_KEY");
             //String city = "providence";
-            String querryString = "?q=" + cityName + "&appid=" + apiKey + "&units=imperial";
-            String openWeatherUrl = BASE_URL + querryString;
+            String units = "imperial";
+            String queryString = "?q=" + cityName + "&appid=" + apiKey + "&units=imperial";
+            String openWeatherUrl = BASE_URL + queryString;
 
-           CurrentWaether openWeatherResponse = restTemplate.getForObject(openWeatherUrl, CurrentWaether.class);
+           CurrentWeather owRes = restTemplate.getForObject(openWeatherUrl, CurrentWeather.class);
 
 
-            return ResponseEntity.ok(openWeatherResponse);
+           assert owRes != null;
+            //System.out.println("City: " + openWeatherResponse.getName());   ***** Commented Out for new weather report *****
+            //System.out.println("Temp: " + openWeatherResponse.getMain().getTemp() + "F");
+            //System.out.println("Desc: " + openWeatherResponse.getWeather()[0].getDescription());
+            CurrentWeatherReport report;
+            report = new CurrentWeatherReport(
+                    owRes.getName(),
+                    owRes.getCoord(),
+                    owRes.getMain(),
+                    owRes.getWeather()[0],
+                    units
+            );
+
+
+            // return ResponseEntity.ok(openWeatherResponse);   ***** Commented Out for new weather report *****
+
+            System.out.println(owRes);
+            System.out.println(report);
+
+
+            return ResponseEntity.ok(report);
 
 
         }   catch (HttpClientErrorException.NotFound e) {

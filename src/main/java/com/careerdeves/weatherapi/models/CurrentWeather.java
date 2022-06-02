@@ -7,7 +7,7 @@ public class CurrentWeather {
 
     private int timezone;
 
-    private int vivibility;
+    private int visibility;
 
     private Coords coord;
 
@@ -24,8 +24,8 @@ public class CurrentWeather {
         return timezone;
     }
 
-    public int getVivibility() {
-        return vivibility;
+    public int getVisibility() {
+        return visibility;
     }
 
     public Coords getCoord() {
