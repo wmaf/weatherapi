@@ -1,7 +1,8 @@
 package com.careerdeves.weatherapi.controllers;
 
 
-import com.careerdeves.weatherapi.models.CurrentWaether;
+import com.careerdeves.weatherapi.models.CurrentWeather;
+import com.careerdeves.weatherapi.models.CurrentWeather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,14 @@ public class CurrentWeatherController {
             String querryString = "?q=" + cityName + "&appid=" + apiKey + "&units=imperial";
             String openWeatherUrl = BASE_URL + querryString;
 
-           CurrentWaether openWeatherResponse = restTemplate.getForObject(openWeatherUrl, CurrentWaether.class);
+           CurrentWeather openWeatherResponse = restTemplate.getForObject(openWeatherUrl, CurrentWeather.class);
+
+
+           assert openWeatherResponse != null;
+            System.out.println("City: " + openWeatherResponse.getName());
+            System.out.println("Temp: " + openWeatherResponse.getMain().getTemp());
+            System.out.println("Desc: " + openWeatherResponse.getWeather()[0].getDescription());
+
 
 
             return ResponseEntity.ok(openWeatherResponse);
