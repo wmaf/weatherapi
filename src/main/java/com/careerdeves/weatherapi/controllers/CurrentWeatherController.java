@@ -29,9 +29,9 @@ public class CurrentWeatherController {
             String apiKey = environment.getProperty("OW_API_KEY");
             //String city = "providence";
             String units = "imperial";
-            String queryString = "?q=" + cityName + "&appid=" + apiKey + "&units=imperial";
+            String queryString = "?q=" + cityName + "&appid=" + apiKey + "&units=" + units; //imperial";
             String openWeatherUrl = BASE_URL + queryString;
-
+            //System.out.println(add url here to test);
            CurrentWeather owRes = restTemplate.getForObject(openWeatherUrl, CurrentWeather.class);
 
 
