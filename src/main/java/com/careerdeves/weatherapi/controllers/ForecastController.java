@@ -18,16 +18,16 @@ public class ForecastController {
     private Environment env;
     private final String BASE_URL = "https://api.openweathermap.org/data/2.5/forecast";
 
-    @GetMapping("/city/{city}")
-    public ResponseEntity<?> getForecastByCity (RestTemplate restTemplate, @PathVariable String city) {
+    @GetMapping("/city/{cityName}")
+    public ResponseEntity<?> getForecastByCity (RestTemplate restTemplate, @PathVariable String cityName) {
 
         try {
             String units = "imperial";
             String  apiKey = env.getProperty("OW_API_KEY");
-            String queryString = "?q=" + city + "$units=" + units + "&appid=" + apiKey;
-            String url = BASE_URL + queryString;
-
-            Forecast owRes = restTemplate.getForObject(url, Forecast.class);
+            String queryString = "?q=" + cityName + "&units=" + units + "&appid=" + apiKey;
+            String forecastURL = BASE_URL + queryString;
+            //System.out.println(forecastURL);
+            Forecast owRes = restTemplate.getForObject(forecastURL, Forecast.class);
 
             //Generate report
             return ResponseEntity.ok(owRes);

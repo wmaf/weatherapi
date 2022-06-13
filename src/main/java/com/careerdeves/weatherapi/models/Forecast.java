@@ -1,6 +1,9 @@
 package com.careerdeves.weatherapi.models;
 
 import com.careerdeves.weatherapi.models.CurrentWeather.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Forecast {
@@ -32,9 +35,25 @@ public class Forecast {
      }
  }
 
-    public static class ForecastWeather extends CurrentWeather{
+    public static class ForecastWeather extends CurrentWeather {
+     @JsonProperty("dt_txt")
+     private String dateTime;
 
+        private float pop;
 
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+
+        private String name;
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private Coords coord;
+
+        public String getDt_txt() {
+            return dateTime;
+        }
+
+        public float getPop() {
+            return pop;
+        }
     }
 
     public City getCity() {
