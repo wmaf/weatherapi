@@ -18,7 +18,7 @@ public class ForcastReport {
 
         for (int i = 0; i < forecast.getList().length; i++) {
             reports[i] = new ForecastReportEntry(forecast.getList()[i]);
-
+           // reports.add(new ForecastReportEntry(forecast.getList()[i]));
         }
     }
 
@@ -67,4 +67,8 @@ public class ForcastReport {
     public ForecastReportEntry[] getReports() {
         return reports;
     }
+
+//    public ForecastReportEntry[] getReports() {
+//        return reports;
+//    }
 }
