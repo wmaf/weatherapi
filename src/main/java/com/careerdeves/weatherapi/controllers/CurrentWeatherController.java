@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/api/current")
 public class CurrentWeatherController {
@@ -59,22 +61,41 @@ public class CurrentWeatherController {
     //http:/localhost:8080/api/current?city = boston&units=imperial
     //http:/localhost:8080/api/current/city?name=boston$units=imperial
 
-    @GetMapping("")
+    @GetMapping("/city")
     public ResponseEntity<?> getCurrentWeatherByCityRequestPrams (
             RestTemplate restTemplate,
-            @RequestParam String name //19 minutes into 4name
-            //@RequestParam String units
+            @RequestParam (value = "name") String cityName,
+            @RequestParam(defaultValue = "imperial") String units
     ){
         try {
-            String city = "name";
-            String units = "imperial";
+            ArrayList<String> validationErrors = new ArrayList<>();
+            if (cityName.trim().equals("")) {
+                validationErrors.add("City name required");
+            }else if (
+                    !cityName.replaceAll("[^a-zA-Z -]", "").equals(cityName)
+            ){
+
+                validationErrors.add("Invalid City Name");
+            }
+            if (!units.equals("metric")&& !units.equals("imperial")){
+                validationErrors.add("Units must be metric or imperial");
+            }
+
+            // The two lines below now use request prams above.
+            //String city = "name";
+            //String units = "imperial";
+
+            System.out.println("Name:" + cityName+ " - units:" + units);  //Test cityName
 
             String apiKey = environment.getProperty("OW_API_KEY");
-            String queryString = "?q=" + city + "&appid=" + apiKey + "&units=" + units; //imperial";
+            String queryString = "?q=" + cityName + "&appid=" + apiKey + "&units=" + units; //imperial";
             String openWeatherUrl = BASE_URL + queryString;
 
             return ResponseEntity.ok().body("Test Request Param");
-        } catch (Exception e) {
+        } catch (HttpClientErrorException.NotFound e) { //cityName check
+            return ResponseEntity.status(404).body("City Not Found!  You entered: " + cityName);
+
+        }catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println(e.getClass());
             return ResponseEntity.internalServerError().body(e.getMessage());
