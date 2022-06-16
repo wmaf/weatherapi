@@ -64,7 +64,7 @@ public class CurrentWeatherController {
     @GetMapping("")
     public ResponseEntity<?> getCurrentWeatherByCityRequestPrams (
             RestTemplate restTemplate,
-            @RequestParam String //19 minutes into 4name
+            @RequestParam String name //19 minutes into 4name
             //@RequestParam String units
     ){
         try {
