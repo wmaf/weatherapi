@@ -1,7 +1,6 @@
 package com.careerdeves.weatherapi.controllers;
 
 import com.careerdeves.weatherapi.models.CurrentWeather;
-import com.careerdeves.weatherapi.models.CurrentWeather;
 import com.careerdeves.weatherapi.models.CurrentWeatherReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -18,8 +17,7 @@ public class CurrentWeatherController {
 // create a base url  final, so it can't be changed  note the format
     private final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-    //@GetMapping("/city/{cityName}")
-    @GetMapping("")
+    @GetMapping("/city/{cityName}")
     public ResponseEntity<?> getCurrentWeatherByCity (RestTemplate restTemplate, @PathVariable String cityName) {
 
         try {
