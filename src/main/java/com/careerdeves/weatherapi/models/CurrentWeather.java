@@ -117,5 +117,12 @@ public class CurrentWeather {
                 return icon;
             }
         }
+        public CurrentWeatherReport createReport(String units) {
+            return new CurrentWeatherReport( getName(),
+                    getCoord(),
+                    getMain(),
+                    getWeather()[0],
+                    units);
+        }
 
     }

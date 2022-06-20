@@ -36,19 +36,20 @@ public class CurrentWeatherController {
             //System.out.println("City: " + openWeatherResponse.getName());   ***** Commented Out for new weather report *****
             //System.out.println("Temp: " + openWeatherResponse.getMain().getTemp() + "F");
             //System.out.println("Desc: " + openWeatherResponse.getWeather()[0].getDescription());
-            CurrentWeatherReport report;
-            report = new CurrentWeatherReport(
-                    owRes.getName(),
-                    owRes.getCoord(),
-                    owRes.getMain(),
-                    owRes.getWeather()[0],
-                    units
-            );
+   //because we added this to the controller >>>
+// >>> CurrentWeatherReport report;
+//            report = new CurrentWeatherReport(
+//                    owRes.getName(),
+//                    owRes.getCoord(),
+//                    owRes.getMain(),
+//                    owRes.getWeather()[0],
+//                    units
+//            );
+//
+//            System.out.println(owRes);  // return ResponseEntity.ok(openWeatherResponse);   ***** Commented Out for new weather report *****
+//            System.out.println(report);
 
-            System.out.println(owRes);  // return ResponseEntity.ok(openWeatherResponse);   ***** Commented Out for new weather report *****
-            System.out.println(report);
-
-            return ResponseEntity.ok(report);
+            return ResponseEntity.ok(owRes.createReport(units));
 
         } catch (HttpClientErrorException.NotFound e) {
             return ResponseEntity.status(404).body("City Not Found!  You entered: " + cityName);
@@ -77,8 +78,12 @@ public class CurrentWeatherController {
 
                 validationErrors.add("Invalid City Name");
             }
-            if (!units.equals("metric")&& !units.equals("imperial")){
+            if (!units.equals("metric") && !units.equals("imperial")){
                 validationErrors.add("Units must be metric or imperial");
+            }
+
+            if(validationErrors.size() != 0 ){
+                return ResponseEntity.badRequest().body(validationErrors);  //69 min
             }
 
             // The two lines below now use request prams above.
@@ -91,7 +96,11 @@ public class CurrentWeatherController {
             String queryString = "?q=" + cityName + "&appid=" + apiKey + "&units=" + units; //imperial";
             String openWeatherUrl = BASE_URL + queryString;
 
-            return ResponseEntity.ok().body("Test Request Param");
+             CurrentWeather owRes = restTemplate.getForObject(openWeatherUrl, CurrentWeather.class);
+ // because I added it to the controller>>>
+            // return ResponseEntity.ok().body(owRes);
+            assert owRes != null;
+            return ResponseEntity.ok(owRes.createReport(units));
         } catch (HttpClientErrorException.NotFound e) { //cityName check
             return ResponseEntity.status(404).body("City Not Found!  You entered: " + cityName);
 
