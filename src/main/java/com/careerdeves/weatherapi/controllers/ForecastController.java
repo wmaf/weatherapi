@@ -34,7 +34,7 @@ public class ForecastController {
             //Generate report removing null entries.
 
             assert owRes != null;
-            ForcastReport report = new ForcastReport(owRes);
+            ForcastReport report = new ForcastReport(owRes, units);
 
 
             return ResponseEntity.ok(owRes);

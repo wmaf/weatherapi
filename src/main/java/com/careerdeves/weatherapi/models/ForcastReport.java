@@ -9,7 +9,7 @@ public class ForcastReport {
     private final int population;
     private ForecastReportEntry[] reports;
 
-    public ForcastReport(Forecast forecast) {
+    public ForcastReport(Forecast forecast, String units) {
         cityName = forecast.getCity().getName();
         country = forecast.getCity().getCountry();
         population = forecast.getCity().getPopulation();
@@ -17,8 +17,8 @@ public class ForcastReport {
         reports = new   ForecastReportEntry[forecast.getList().length];
 
         for (int i = 0; i < forecast.getList().length; i++) {
-            reports[i] = new ForecastReportEntry(forecast.getList()[i]);
-           // reports.add(new ForecastReportEntry(forecast.getList()[i]));
+           //reports[i] = new ForecastReportEntry(forecast.getList()[i]);
+           // reports.add(new ForecastReportEntry(forecast.getList()[i], units));
         }
     }
 
@@ -28,10 +28,10 @@ public class ForcastReport {
         private final String temp;
         private final String percentageOfPrecipitation;
 
-    public ForecastReportEntry(Forecast.ForecastWeather wd) {
+    public ForecastReportEntry(Forecast.ForecastWeather wd, String units) {
         description = wd.getWeather()[0].getMain() + " : " + wd.getWeather()[0].getDescription();
         dateTime = wd.getDt_txt();
-        temp = wd.getMain().getTemp() + "°F";  // needs to be refactored to reflect proper data type
+        temp = wd.getMain().getTemp() + "°" + (units.equals("imperial")? "F" : "C");  // needs to be refactored to reflect proper data type
         percentageOfPrecipitation = (wd.getPop() * 100) + "%";
     }
 
