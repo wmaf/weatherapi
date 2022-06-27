@@ -2,23 +2,27 @@ package com.careerdeves.weatherapi.models;
 
 import com.careerdeves.weatherapi.models.Forecast.ForecastWeather;
 
+import java.util.ArrayList;
+
 public class ForcastReport {
 
     private final String cityName;
     private final String country;
     private final int population;
-    private ForecastReportEntry[] reports;
+    //private ForecastReportEntry[] reports;
+    private final ArrayList<ForecastReportEntry> reports;
+
 
     public ForcastReport(Forecast forecast, String units) {
         cityName = forecast.getCity().getName();
         country = forecast.getCity().getCountry();
         population = forecast.getCity().getPopulation();
 
-        reports = new   ForecastReportEntry[forecast.getList().length];
-
+        //reports = new   ForecastReportEntry[forecast.getList().length];
+        reports = new ArrayList<>();
         for (int i = 0; i < forecast.getList().length; i++) {
            //reports[i] = new ForecastReportEntry(forecast.getList()[i]);
-           // reports.add(new ForecastReportEntry(forecast.getList()[i], units));
+            reports.add(new ForecastReportEntry(forecast.getList()[i], units));
         }
     }
 
@@ -64,11 +68,15 @@ public class ForcastReport {
         return population;
     }
 
-    public ForecastReportEntry[] getReports() {
+    //public ForecastReportEntry[] getReports() {
+        //return reports;
+
+    public ArrayList<ForecastReportEntry> getReports() {
         return reports;
     }
+}
 
 //    public ForecastReportEntry[] getReports() {
 //        return reports;
 //    }
-}
+
