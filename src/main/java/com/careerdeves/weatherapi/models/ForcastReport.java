@@ -9,8 +9,6 @@ public class ForcastReport {
     private final String cityName;
     private final String country;
     private final int population;
-    private final CurrentWeather.Coords coords;
-    private final int reportsCount;
     //private ForecastReportEntry[] reports;
     private final ArrayList<ForecastReportEntry> reports;
 
@@ -19,8 +17,7 @@ public class ForcastReport {
         cityName = forecast.getCity().getName();
         country = forecast.getCity().getCountry();
         population = forecast.getCity().getPopulation();
-        this.coords = forecast.getCity().getCoord();
-        reportsCount = forecast.getList().length;
+
         //reports = new   ForecastReportEntry[forecast.getList().length];
         reports = new ArrayList<>();
         for (int i = 0; i < forecast.getList().length; i++) {
@@ -73,14 +70,6 @@ public class ForcastReport {
 
     //public ForecastReportEntry[] getReports() {
         //return reports;
-
-    public CurrentWeather.Coords getCoords() {
-        return coords;
-    }
-
-    public int getReportsCount() {
-        return reportsCount;
-    }
 
     public ArrayList<ForecastReportEntry> getReports() {
         return reports;
